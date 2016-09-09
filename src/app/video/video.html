@@ -1,0 +1,9 @@
+<h1>{{video.title}}</h1>
+<video *ngIf="!error" (loadedmetadata)="onEvent($event)" (click)="onEvent($event)" controls>
+  <source [src]="videoSrc" [type]="video.mimetype" (error)="error=$event">
+</video>
+<div *ngIf="error">
+  <img [src]="'data:image/jpg;base64,'+video.thumbs?.small?.$binary">
+  <p>Sorry, ain't playing {{video.mimetype}} yet</p>
+  <a [href]="videoSrc">Download</a>
+</div>
