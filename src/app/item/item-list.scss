@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  align-content: flex-start;
+  .card-img-top, .card-block {
+    max-width: 300px;
+  }
+  .card-title {
+    text-overflow: ellipsis;
+    overflow: hidden
+  }
+}
+
+

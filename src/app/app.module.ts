@@ -1,5 +1,6 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -12,31 +13,38 @@ import { combineReducers, StoreModule } from '@ngrx/store';
 import { storeLogger } from 'ngrx-store-logger';
 import { compose } from '@ngrx/core/compose';
 import { videoReducer } from './video/video.reducer';
+import { DurationPipe } from './item/duration.filter';
+import { ApiService } from './api/api.service';
 
 type StoreType = {
-  $inputs: any[],
   disposeOldHosts: () => void
 };
 
-const rootReducer = compose(storeLogger(), combineReducers)({item: itemReducer, video: videoReducer});
+const rootReducer = compose(storeLogger(), combineReducers)({
+  item: itemReducer,
+  video: videoReducer
+});
 
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
 @NgModule({
   bootstrap: [ App ],
   declarations: [
     App,
     NoContent,
+    DurationPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true }),
+    RouterModule.forRoot(ROUTES),
     StoreModule.provideStore(rootReducer),
   ],
   providers: [
+    ApiService
+  ],
+  exports: [
+    DurationPipe,
+    CommonModule
   ]
 })
 export class AppModule {

@@ -15,7 +15,7 @@ import { compose } from '@ngrx/core/compose';
 export class VideoPlayerComponent {
   @Input() video: Video;
   error: Event;
-  constructor (private video: ElementRef) {}
+  constructor (private videoElem: ElementRef) {}
 
   onEvent(event) {
     console.log(event.type, event);

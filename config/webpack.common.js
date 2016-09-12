@@ -19,7 +19,7 @@ const autoprefixer = require('autoprefixer');
  */
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Mediat',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };

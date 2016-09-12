@@ -1,49 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class ItemService {
-  constructor(private http: Http) {}
+  itemsState$ = this.store.select(s => s.item);
+  entities$ = this.itemsState$.select(s => s.entities);
+
+  constructor (private store: Store<any>) { }
+
   items() {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
-    const search = new URLSearchParams();
-    search.set('projection', JSON.stringify({
-      title: 1,
-      mimetype: 1,
-      modified: 1,
-      created: 1,
-      file_modified: 1,
-      'thumbs.small': 1,
-      tags: 1
-    }));
-    search.set('limit', '50');
-    search.set('sort', JSON.stringify([['modified', -1]]));
-    return this.http
-      .get('https://api.wka.se/mediat/item/', {search, headers})
-      .map(r => r.json())
-      .map(videos => videos.map(v => this.toItem(v)))
+    return this.entities$
+      .map(entities => Object.keys(entities).map(k => entities[k]));
   }
 
-  videos() {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
-    const search = new URLSearchParams();
-    search.set('query', JSON.stringify({mimetype: {$regex: '^video'}}));
-    search.set('projection', JSON.stringify({'thumbs.large': 0}));
-    return this.http
-      .get('https://api.wka.se/mediat/item/', {search, headers})
-      .map(r => r.json())
-      .map(videos => videos.map(v => this.toItem(v)))
+  video() {
+    return this.entities$.filter(s => s.mimetype.startsWith('video'));
   }
 
-  private toItem(itemData) {
-    itemData.id = itemData._id.$oid;
-    itemData.modified = new Date(itemData.modified.$date);
-    itemData.created = new Date(itemData.created.$date);
-    itemData.file_modified = new Date(itemData.file_modified.$date);
-    return itemData
+  audio() {
+    return this.entities$.filter(s => s.mimetype.startsWith('audio'));
+  }
+
+  image() {
+    return this.entities$.filter(s => s.mimetype.startsWith('image'));
+  }
+
+  item(id: string) {
+    return this.itemsState$.select(s => s.entities[id]);
+  }
+
+  hasItem(id: string) {
+    return this.itemsState$.select(s => s.ids.includes(id));
   }
 }
