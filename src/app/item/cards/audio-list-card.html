@@ -1,0 +1,8 @@
+<div class="card audio">
+  <img class="card-img-top" [src]="'data:image/png;base64,'+audio.cover_data?.$binary">
+  <div class="card-block">
+    <h4 class="card-title>"><a [routerLink]="[audio.id]">{{audio.title}}</a></h4>
+    <p>Artist: {{audio.performer}}</p>
+    <p>Album: {{audio.album}}</p>
+  </div>
+</div>

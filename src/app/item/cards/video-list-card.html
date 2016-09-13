@@ -1,0 +1,10 @@
+<div class="card video">
+  <img class="card-img-top" [src]="'data:image/png;base64,'+video.thumbs?.small?.$binary">
+  <div class="card-block">
+    <h4 class="card-title"><a [routerLink]="[video.id]">{{video.title}}</a></h4>
+    <p class="card-text small">
+      <strong>Type</strong> {{video.mimetype}}<br>
+      <strong>Tags</strong> <span *ngFor="let tag of video.tags">{{tag}} </span>
+    </p>
+  </div>
+</div>
