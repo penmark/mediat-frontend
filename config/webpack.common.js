@@ -29,7 +29,7 @@ const METADATA = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function(options) {
+module.exports = function (options) {
   const isProd = options.env === 'production';
   return {
 
@@ -47,7 +47,7 @@ module.exports = function(options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-     //cache: false,
+    //cache: false,
 
     /*
      * The entry point for the bundle
@@ -58,8 +58,8 @@ module.exports = function(options) {
     entry: {
 
       'polyfills': './src/polyfills.browser.ts',
-      'vendor':    './src/vendor.browser.ts',
-      'main':      './src/main.browser.ts'
+      'vendor': './src/vendor.browser.ts',
+      'main': './src/main.browser.ts'
 
     },
 
@@ -170,7 +170,7 @@ module.exports = function(options) {
         },
 
         /* File loader for supporting images, for example, in CSS files.
-        */
+         */
         {
           test: /\.(jpg|png|gif)$/,
           loader: 'file'
@@ -182,6 +182,17 @@ module.exports = function(options) {
         },
       ]
     },
+    postLoaders: [
+      {
+        test: /\.js$/,
+        loader: 'string-replace-loader',
+        query: {
+          search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
+          replace: 'var sourceMappingUrl = "";',
+          flags: 'g'
+        }
+      }
+    ],
     postcss: [autoprefixer],
     /*
      * Add additional plugins to the compiler.
