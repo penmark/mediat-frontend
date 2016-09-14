@@ -8,7 +8,6 @@ import { ItemService } from './item.service';
 @Injectable()
 export class ItemsLoadedGuard implements CanActivate {
   constructor(private itemService: ItemService) {
-    console.log('itemsloadedguard')
   }
 
   waitForItemsToLoad() {
@@ -24,6 +23,6 @@ export class ItemsLoadedGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     return this.waitForItemsToLoad()
-      .switchMapTo(this.hasItem(route.params['itemOid']));
+      .switchMapTo(this.hasItem(route.params['itemId']));
   }
 }

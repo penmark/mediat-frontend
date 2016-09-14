@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -6,12 +6,11 @@ import { ItemEffects } from './item.effects';
 import { ItemService } from './item.service';
 import { ItemsLoadedGuard } from './items-loaded.guard';
 import { ItemListPage } from './item-list.page';
-import { ItemComponent } from './item.component';
-import { ItemEntryComponent } from './item.component';
+import { ItemComponent, ItemEntryComponent } from './item.component';
 import { VideoListCard, ImageListCard, AudioListCard } from './cards';
 import { ItemListComponent } from './item-list.component';
-import { ItemComponent, ItemEntryComponent } from './item.component';
 import { VideoModule } from '../video/video.module';
+import { VideoComponent } from '../video/video.component';
 
 
 @NgModule({
@@ -20,7 +19,8 @@ import { VideoModule } from '../video/video.module';
     VideoModule,
     RouterModule.forChild([
       {path: '', component: ItemListPage},
-      {path: ':itemOid', component: ItemComponent, canActivate: [ItemsLoadedGuard]}
+      {path: ':itemId', component: ItemComponent, canActivate: [ItemsLoadedGuard]},
+      {path: 'video/:itemId', component: VideoComponent, canActivate: [ItemsLoadedGuard]}
     ]),
     EffectsModule.run(ItemEffects)
   ],

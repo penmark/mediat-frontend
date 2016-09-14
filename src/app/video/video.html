@@ -1,5 +1,5 @@
 <h1>{{video.title}}</h1>
-<video *ngIf="!error" (loadedmetadata)="onEvent($event)" (click)="onEvent($event)" controls>
+<video style="max-width:100%" *ngIf="!error" #player (loadedmetadata)="onEvent($event)" (click)="player.play()" controls>
   <source [src]="videoSrc" [type]="video.mimetype" (error)="error=$event">
 </video>
 <div *ngIf="error">

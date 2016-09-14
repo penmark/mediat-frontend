@@ -1,9 +1,7 @@
-import { Component, Input, ChangeDetectionStrategy, ElementRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Video } from './video';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { compose } from '@ngrx/core/compose';
 import { ItemService } from '../item/item.service';
 
 
@@ -14,9 +12,15 @@ import { ItemService } from '../item/item.service';
 })
 export class VideoPlayerComponent {
   @Input() video: Video;
+  @ViewChild('player') player: ElementRef;
   error: Event;
-  constructor (private videoElem: ElementRef) {
-    console.log(videoElem);
+
+  constructor () {
+
+  }
+
+  ngAfterViewInit(): void {
+    console.log('player', this.player);
   }
 
   onEvent(event) {
@@ -36,7 +40,7 @@ export class VideoComponent {
 
   constructor(route: ActivatedRoute, itemService: ItemService) {
     this.video$ = route.params
-      .select<string>('videoId')
+      .select<string>('itemId')
       .switchMap(id => itemService.item(id));
   }
 
