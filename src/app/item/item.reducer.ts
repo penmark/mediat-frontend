@@ -1,6 +1,6 @@
 import { ActionReducer } from '@ngrx/store';
-import * as itemActions from './item.actions';
 import { Item } from './item';
+import { ItemActions, ItemActionTypes } from './item.actions';
 
 
 export interface ItemsState {
@@ -12,9 +12,9 @@ const initialState: ItemsState = {
   entities: {}
 };
 
-export const itemReducer: ActionReducer<any> = (state = initialState, action: itemActions.All): ItemsState => {
+export const itemReducer: ActionReducer<any> = (state = initialState, action: ItemActions): ItemsState => {
   switch (action.type) {
-    case itemActions.Types.ITEMS_LOADED: {
+    case ItemActionTypes.ITEMS_LOADED: {
       const items = action.payload;
       const newItems = items.filter(item => !state.entities[item.id]);
       const newItemIds = newItems.map(item => item.id);

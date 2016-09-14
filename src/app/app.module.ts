@@ -12,7 +12,6 @@ import { itemReducer } from './item/item.reducer';
 import { combineReducers, StoreModule } from '@ngrx/store';
 import { storeLogger } from 'ngrx-store-logger';
 import { compose } from '@ngrx/core/compose';
-import { videoReducer } from './video/video.reducer';
 import { DurationPipe } from './item/duration.filter';
 import { ApiService } from './api/api.service';
 
@@ -22,7 +21,6 @@ type StoreType = {
 
 const rootReducer = compose(storeLogger(), combineReducers)({
   item: itemReducer,
-  video: videoReducer
 });
 
 @NgModule({

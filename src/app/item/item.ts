@@ -1,8 +1,18 @@
+export interface BinaryData {
+  $type: string|number;
+  $binary: string;
+}
+
+export interface Oid {
+  $oid: string;
+}
+
 export interface Item {
   id: string;
-  thumbs: {
-    small: {$binary: string},
-    large: {$binary: string}
+  _id: Oid;
+  thumbs?: {
+    small: BinaryData,
+    large: BinaryData
   },
   complete_name: string;
   title: string;
@@ -12,4 +22,11 @@ export interface Item {
   created: Date;
   modified: Date;
   file_modified: Date;
+  cover_data?: BinaryData;
+  sha256: string;
+  format: string;
+  codec?: string;
+  duration?: number;
+  frame_rate?: number;
+  file_size: number;
 }

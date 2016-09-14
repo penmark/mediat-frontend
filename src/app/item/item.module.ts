@@ -4,18 +4,20 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ItemEffects } from './item.effects';
 import { ItemService } from './item.service';
-import { DurationPipe } from './duration.filter';
 import { ItemsLoadedGuard } from './items-loaded.guard';
-import { ItemListPage } from './item-list.page.ts';
+import { ItemListPage } from './item-list.page';
 import { ItemComponent } from './item.component';
 import { ItemEntryComponent } from './item.component';
 import { VideoListCard, ImageListCard, AudioListCard } from './cards';
 import { ItemListComponent } from './item-list.component';
+import { ItemComponent, ItemEntryComponent } from './item.component';
+import { VideoModule } from '../video/video.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    VideoModule,
     RouterModule.forChild([
       {path: '', component: ItemListPage},
       {path: ':itemOid', component: ItemComponent, canActivate: [ItemsLoadedGuard]}
@@ -34,8 +36,7 @@ import { ItemListComponent } from './item-list.component';
   providers: [
     ItemService,
     ItemsLoadedGuard
-  ],
-  exports: []
+  ]
 })
 export class ItemModule {
 }

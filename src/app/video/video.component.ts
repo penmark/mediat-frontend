@@ -2,9 +2,9 @@ import { Component, Input, ChangeDetectionStrategy, ElementRef } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { Video } from './video';
 import { Store } from '@ngrx/store';
-import { getVideo, getVideosState } from './video.actions';
 import { Observable } from 'rxjs/Observable';
 import { compose } from '@ngrx/core/compose';
+import { ItemService } from '../item/item.service';
 
 
 @Component({
@@ -15,7 +15,9 @@ import { compose } from '@ngrx/core/compose';
 export class VideoPlayerComponent {
   @Input() video: Video;
   error: Event;
-  constructor (private videoElem: ElementRef) {}
+  constructor (private videoElem: ElementRef) {
+    console.log(videoElem);
+  }
 
   onEvent(event) {
     console.log(event.type, event);
@@ -32,10 +34,10 @@ export class VideoPlayerComponent {
 export class VideoComponent {
   video$: Observable<Video>;
 
-  constructor(route: ActivatedRoute, store: Store<any>) {
+  constructor(route: ActivatedRoute, itemService: ItemService) {
     this.video$ = route.params
-      .select<string>('video')
-      .switchMap(video => store.let(compose(getVideo(video), getVideosState())));
+      .select<string>('videoId')
+      .switchMap(id => itemService.item(id));
   }
 
 }
