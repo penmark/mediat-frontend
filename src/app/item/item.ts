@@ -7,21 +7,34 @@ export interface Oid {
   $oid: string;
 }
 
-export interface Item {
+export interface MongoDate {
+  $date: number;
+}
+
+export interface IndexItem {
   id: string;
   _id: Oid;
+  title: string;
+  mimetype: string;
+  modified: Date | MongoDate;
+}
+
+
+export interface Track {
+  height: number;
+  width: number;
+}
+
+export interface Item extends IndexItem {
   thumbs?: {
     small: BinaryData,
     large: BinaryData
   },
   complete_name: string;
-  title: string;
-  tracks: any[];
-  mimetype: string;
+  tracks: Track[];
   tags: string[];
-  created: Date;
-  modified: Date;
-  file_modified: Date;
+  created: Date | MongoDate;
+  file_modified: Date | MongoDate;
   cover_data?: BinaryData;
   sha256: string;
   format: string;
@@ -30,3 +43,4 @@ export interface Item {
   frame_rate?: number;
   file_size: number;
 }
+

@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 
 export const ItemActionTypes = {
   LOAD_ITEMS: '[item] Load items',
-  ITEMS_LOADED: '[item] Items loaded'
+  ITEMS_LOADED: '[item] Items loaded',
+  LOAD_INDEX: '[item] Load index',
+  INDEX_LOADED: '[item] Index loaded'
 };
 
 export class LoadItemsAction implements Action {
@@ -18,4 +20,18 @@ export class ItemsLoadedAction implements Action {
   constructor(public payload: Item[]) {}
 }
 
-export type ItemActions = LoadItemsAction | ItemsLoadedAction;
+export class LoadIndexAction implements Action {
+  type = ItemActionTypes.LOAD_INDEX;
+  constructor() {}
+}
+
+export class IndexLoadedAction implements Action {
+  type = ItemActionTypes.INDEX_LOADED;
+  constructor(public payload: Item[]) {}
+}
+
+export type ItemActions =
+    LoadItemsAction
+  | ItemsLoadedAction
+  | LoadIndexAction
+  | IndexLoadedAction;

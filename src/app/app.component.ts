@@ -11,16 +11,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styles: [
-    require('bootstrap/scss/bootstrap-flex.scss'),
+    require('bootstrap/scss/bootstrap-flex.scss')
   ],
   template: require('./app.html')
 })
 export class App {
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }
 
 /*
