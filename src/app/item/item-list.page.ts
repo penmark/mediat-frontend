@@ -8,7 +8,7 @@ import { ItemService } from './item.service';
   template: '<item-list [items]="items$ | async"></item-list>'
 })
 export class ItemListPage {
-  items$: Observable<Item[]>;
+  items$: Observable<Iterator<Item>>;
 
   constructor(itemService: ItemService) {
     this.items$ = itemService.items();

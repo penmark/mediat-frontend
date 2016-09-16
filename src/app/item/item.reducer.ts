@@ -14,15 +14,15 @@ const initialState: ItemsState = {
   items: OrderedMap<string, Item>()
 };
 
-const updateIds = (ids: OrderedSet<string>, items: Item[]): OrderedSet<string> => {
+const updateIds = (ids: OrderedSet<string>, items: IndexItem[]): OrderedSet<string> => {
   return ids.withMutations(set => {
-    Seq(items).map(item => item.id).forEach(id => set.add(id))
+    Seq(items).map(item => item._id).forEach(id => set.add(id))
   });
 };
 
-const updateEntities = (entities:  OrderedMap<string, Item>, items: Item[]):  OrderedMap<string, Item> => {
+const updateEntities = (entities:  OrderedMap<string, Item>, items: IndexItem[]):  OrderedMap<string, Item> => {
   return entities.withMutations(map => {
-    Seq(items).forEach(item => map.set(item.id, item))
+    Seq(items).forEach(item => map.set(item._id, item))
   });
 };
 
@@ -31,14 +31,14 @@ export const itemReducer: ActionReducer<any> = (state = initialState, action: It
     case ItemActionTypes.INDEX_LOADED: {
       const items = action.payload;
       const ids = updateIds(state.ids, items);
-      const index = updateEntities(state.index, items);
+      const index = updateEntities(state.index, items as Item[]);
       return Object.assign({}, state, {ids, index});
     }
     case ItemActionTypes.ITEMS_LOADED: {
       const items = action.payload;
       const ids = updateIds(state.ids, items);
-      const items = updateEntities(state.items, items);
-      return Object.assign({}, state, {ids, items});
+      const newItems = updateEntities(state.items, items);
+      return Object.assign({}, state, {ids, items: newItems});
     }
     default:
       return state;

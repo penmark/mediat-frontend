@@ -9,8 +9,8 @@ export interface MongoSearch {
   limit?: number;
   skip?: number;
   query?: {};
-  sort?: Array[];
-  projection: {};
+  sort?: {};
+  projection?: {};
 }
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ApiService {
       mimetype: 1,
       modified: 1
     };
-    return this.get({projection, sort: [['modified', -1]]})
+    return this.get({projection, sort: {modified: -1}})
   }
 
   items(ids?: string[], limit = 50) {
@@ -43,10 +43,10 @@ export class ApiService {
         album: 1
       },
       limit,
-      sort: [['modified', -1]]
+      sort: {modified: -1}
     };
     if (ids) {
-      query.query = {_id: {$in: ids.map(id => ({$oid: id}))}};
+      query.query = {_id: {$in: ids}};
     }
     return this.get(query)
   }
@@ -57,14 +57,7 @@ export class ApiService {
     const search = new URLSearchParams();
     Seq(query).forEach((v, k) => { search.set(k, JSON.stringify(v)) });
     return this.http
-      .get('https://api.wka.se/mediat/item/', {search, headers})
+      .get('https://api.wka.se/mediat/item', {search, headers})
       .map(r => r.json())
-      .map(items => items.map(v => this.toItem(v)))
-  }
-
-  private toItem(rawData: Item) {
-    rawData.id = rawData._id.$oid;
-    rawData.modified = new Date(rawData.modified.$date);
-    return rawData
   }
 }

@@ -3,8 +3,8 @@ import { List, OrderedMap, Seq, OrderedSet } from 'immutable';
 import { LoadItemsAction, ItemsLoadedAction } from './item.actions';
 import { Item, IndexItem } from './item';
 
-const item = (id, title, mimetype='video/mp4', modified=new Date()): IndexItem => {
-  return {id, title, mimetype, modified, _id: {$oid: id}} as Item;
+const item = (_id, title, mimetype='video/mp4', modified=new Date()): IndexItem => {
+  return {_id, title, mimetype, modified, complete_name: title} as Item;
 }
 
 describe('Item reducer', () => {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ItemsState } from './item.reducer';
 import { Item } from './item';
+import { List } from 'immutable';
 
 
 interface AppState {
@@ -18,7 +19,7 @@ export class ItemService {
 
   items() {
     return this.items$
-      .map(items => items.values());
+      .map<Iterator<Item>>(items => items.values());
   }
 
   video() {

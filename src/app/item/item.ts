@@ -1,22 +1,8 @@
-export interface BinaryData {
-  $type: string|number;
-  $binary: string;
-}
-
-export interface Oid {
-  $oid: string;
-}
-
-export interface MongoDate {
-  $date: number;
-}
 
 export interface IndexItem {
-  id: string;
-  _id: Oid;
   title: string;
   mimetype: string;
-  modified: Date | MongoDate;
+  modified: Date | string;
 }
 
 
@@ -27,15 +13,15 @@ export interface Track {
 
 export interface Item extends IndexItem {
   thumbs?: {
-    small: BinaryData,
-    large: BinaryData
+    small: string,
+    large: string
   },
   complete_name: string;
   tracks: Track[];
   tags: string[];
-  created: Date | MongoDate;
-  file_modified: Date | MongoDate;
-  cover_data?: BinaryData;
+  created: Date | string;
+  file_modified: Date | string;
+  cover_data?: string;
   sha256: string;
   format: string;
   codec?: string;
