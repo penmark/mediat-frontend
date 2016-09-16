@@ -12,7 +12,7 @@ export class ItemsLoadedGuard implements CanActivate {
 
   waitForItemsToLoad() {
     return this.itemService.items()
-      .filter(items => items)
+      .filter(items => !items.isEmpty())
       .take(1);
   }
 

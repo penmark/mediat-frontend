@@ -1,7 +1,13 @@
 <h1>{{video.title}}</h1>
-<video style="max-width:100%" *ngIf="!error" #player (loadedmetadata)="onEvent($event)" (click)="player.play()" controls>
-  <source [src]="videoSrc" [type]="video.mimetype" (error)="error=$event">
+<video #playerRef *ngIf="!error"
+       (loadedmetadata)="loaded()"
+       (progress)="buffered($event)"
+       (click)="play()"
+       controls>
+  <source [src]="videoSrc" [type]="video.mimetype" (error)="error=true">
 </video>
+<p *ngIf="duration">{{currentTime | async}} / {{duration}}</p>
+<p>{{buffered | json}}</p>
 <div *ngIf="error">
   <img [src]="'data:image/jpg;base64,'+video.thumbs?.small?.$binary">
   <p>Sorry, ain't playing {{video.mimetype}} yet</p>

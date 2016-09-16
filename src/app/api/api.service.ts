@@ -56,6 +56,7 @@ export class ApiService {
     headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
     const search = new URLSearchParams();
     Seq(query).forEach((v, k) => { search.set(k, JSON.stringify(v)) });
+    search.set('query', JSON.stringify({mimetype: {$regex: '^video'}}));
     return this.http
       .get('https://api.wka.se/mediat/item', {search, headers})
       .map(r => r.json())
