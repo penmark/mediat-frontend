@@ -1,15 +1,18 @@
 import { ActionReducer } from '@ngrx/store';
 import { Item, IndexItem } from './item';
 import { ItemActions, ItemActionTypes } from './item.actions';
-import { OrderedSet, OrderedMap, Seq } from 'immutable';
+import { OrderedSet, OrderedMap, Seq, Map } from 'immutable';
 
 export interface ItemsState {
   index: OrderedMap<string, IndexItem>;
   items: OrderedMap<string, Item>;
+  transcode: Map<string, {}>;
 }
+
 const initialState: ItemsState = {
   index: OrderedMap<string, IndexItem>(),
-  items: OrderedMap<string, Item>()
+  items: OrderedMap<string, Item>(),
+  transcode: Map<string, {}>()
 };
 
 const updateEntities = (entities:  OrderedMap<string, IndexItem>, items: IndexItem[]):  OrderedMap<string, Item> => {
@@ -26,7 +29,12 @@ export const itemReducer: ActionReducer<any> = (state = initialState, action: It
     }
     case ItemActionTypes.ITEMS_LOADED: {
       const items = updateEntities(state.items, action.payload);
-      return Object.assign({}, state, {items: items});
+      return Object.assign({}, state, {items});
+    }
+    case ItemActionTypes.TRANSCODE_PROGRESS: {
+      const progress = action.payload;
+      const transcode = state.transcode.set(progress._id, progress);
+      return Object.assign({}, state, {transcode})
     }
     default:
       return state;

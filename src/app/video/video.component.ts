@@ -1,4 +1,7 @@
-import { Component, Input, Output, ChangeDetectionStrategy, ElementRef, ViewChild, OnInit } from '@angular/core';
+import {
+  Component, Input, Output, ChangeDetectionStrategy, ElementRef, ViewChild, OnInit,
+  EventEmitter
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Video } from './video';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +12,8 @@ import 'rxjs/add/observable/of';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import { Store } from '@ngrx/store';
+import { TranscodeItem } from '../item/item.actions';
 
 @Component({
   selector: 'video-player',
@@ -18,6 +23,8 @@ import {ReplaySubject} from 'rxjs/ReplaySubject';
 })
 export class VideoPlayerComponent {
   @Input() video: Video;
+  @Output() transcode = new EventEmitter();
+
   @ViewChild('playerRef') playerRef: ElementRef;
   currentTime = new ReplaySubject(2);
   player: HTMLVideoElement;
@@ -58,15 +65,20 @@ export class VideoPlayerComponent {
 }
 
 @Component({
-  template: '<video-player [video]="video$ | async"></video-player>'
+  template: '<video-player [video]="video$ | async" (transcode)="transcode($event)"></video-player>'
 })
-export class VideoComponent {
+export class VideoComponent implements OnInit {
   video$: Observable<Video>;
 
-  constructor(route: ActivatedRoute, itemService: ItemService) {
-    this.video$ = route.params
+  constructor(private route: ActivatedRoute, private itemService: ItemService, private store: Store<any>) {}
+
+  ngOnInit() {
+    this.video$ = this.route.params
       .select<string>('itemId')
-      .switchMap(id => itemService.item(id));
+      .switchMap(id => this.itemService.item(id));
   }
 
+  transcode(video) {
+    this.store.dispatch(new TranscodeItem(video))
+  }
 }

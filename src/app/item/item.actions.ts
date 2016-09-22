@@ -7,7 +7,9 @@ export const ItemActionTypes = {
   LOAD_ITEMS: '[item] Load items',
   ITEMS_LOADED: '[item] Items loaded',
   LOAD_INDEX: '[item] Load index',
-  INDEX_LOADED: '[item] Index loaded'
+  INDEX_LOADED: '[item] Index loaded',
+  TRANSCODE_ITEM: '[item] Transcode item',
+  TRANSCODE_PROGRESS: '[item] Transcode progress'
 };
 
 export class LoadItemsAction implements Action {
@@ -30,8 +32,20 @@ export class IndexLoadedAction implements Action {
   constructor(public payload: Item[]) {}
 }
 
+export class TranscodeItem implements Action {
+  type = ItemActionTypes.TRANSCODE_ITEM;
+  constructor(public payload: Item) {}
+}
+
+export class TranscodeProgress implements Action {
+  type = ItemActionTypes.TRANSCODE_PROGRESS;
+  constructor(public payload: {}) {}
+}
+
 export type ItemActions =
     LoadItemsAction
   | ItemsLoadedAction
   | LoadIndexAction
-  | IndexLoadedAction;
+  | IndexLoadedAction
+  | TranscodeItem
+  | TranscodeProgress

@@ -23,4 +23,9 @@ export class ItemEffects {
       .map(payload => new IndexLoadedAction(payload))
     );
 
+  @Effect() startTranscode$ = this.updates$
+    .ofType(ItemActionTypes.TRANSCODE_ITEM)
+    .map(action => action.payload)
+    .switchMap(item => this.api.transcode(item))
+    .ignoreElements()
 }

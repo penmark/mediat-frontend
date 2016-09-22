@@ -49,6 +49,12 @@ export class ApiService {
     return this.get(query)
   }
 
+  transcode(item) {
+    const headers = new Headers();
+    headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
+    return this.http.post(`https://api.wka.se/mediat/item/${item._id}/transcode`, item, {headers})
+  }
+
   get(query: MongoSearch): Observable<Item[]> {
     const headers = new Headers();
     headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
@@ -58,7 +64,8 @@ export class ApiService {
     });
 
     return this.http
-      .get('http://[::1]:5000/item', {search, headers})
+      .get('https://api.wka.se/mediat/item', {search, headers})
       .map(r => r.json())
   }
+
 }

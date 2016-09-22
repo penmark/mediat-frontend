@@ -10,7 +10,6 @@ export class AudioListCard {
   loaded = false;
   error = false;
   onError(event, thumb) {
-    console.log('onError', event, thumb)
     this.error = true;
   }
 

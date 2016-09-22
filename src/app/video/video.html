@@ -9,7 +9,8 @@
 <p *ngIf="duration">{{currentTime | async | duration}} / {{duration | duration}}</p>
 <p>{{buffered | json}}</p>
 <div *ngIf="error">
-  <img [src]="'data:image/jpg;base64,'+video.thumbs?.small?.$binary">
+  <img [src]="'https://api.wka.se/mediat/item/'+video._id+'/thumb'">
   <p>Sorry, ain't playing {{video.mimetype}} yet</p>
   <a [href]="videoSrc">Download</a>
+  <button (click)="transcode.emit(video)">Transcode</button>
 </div>

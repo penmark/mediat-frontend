@@ -41,9 +41,9 @@ type StoreType = {
 })
 export class AppModule {
   constructor(public appRef: ApplicationRef, socketService: SocketService) {
-    socketService.send({korv: 'salami'});
-    socketService.receive()
-      .subscribe(data => console.log('Socket data', data));
+    //socketService.send({korv: 'salami'});
+    //socketService.receive()
+    //  .subscribe(data => console.log('Socket data', data));
   }
   hmrOnInit(store: StoreType) {
     if (!store) return;

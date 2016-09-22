@@ -12,7 +12,7 @@ interface AppState {
 export class ItemService {
   itemsState$ = this.store.select(s => s.item);
   items$ = this.itemsState$.select(s => s.items);
-  ids$ = this.items$.map<Seq.Indexed<string>(items => items.keySeq());
+  ids$ = this.items$.map<Seq.Indexed<string>>(items => items.keySeq());
 
   constructor (private store: Store<AppState>) { }
 
