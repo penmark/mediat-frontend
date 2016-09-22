@@ -26,6 +26,8 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/switchMapTo';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/of';
 import '@ngrx/core/add/operator/select';
 
 if ('production' === ENV) {

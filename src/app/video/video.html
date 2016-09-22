@@ -6,7 +6,7 @@
        controls>
   <source [src]="videoSrc" [type]="video.mimetype" (error)="error=true">
 </video>
-<p *ngIf="duration">{{currentTime | async}} / {{duration}}</p>
+<p *ngIf="duration">{{currentTime | async | duration}} / {{duration | duration}}</p>
 <p>{{buffered | json}}</p>
 <div *ngIf="error">
   <img [src]="'data:image/jpg;base64,'+video.thumbs?.small?.$binary">

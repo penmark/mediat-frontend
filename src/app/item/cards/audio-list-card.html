@@ -1,5 +1,6 @@
+<style>.hidden { display: none }</style>
 <div class="card audio">
-  <img class="card-img-top" style="max-height: 168px" [src]="'data:image/png;base64,' + audio.cover_data">
+  <img [class.hidden]="!loaded" #thumb class="card-img-top" style="max-height: 168px" (load)="onLoad($event, thumb)" (error)="onError($event, thumb)" [src]="'//api.wka.se/mediat/item/thumb/' + audio._id">
   <div class="card-block">
     <h4 class="card-title>"><a [routerLink]="[audio._id]">{{audio.title}}</a></h4>
     <p>Artist: {{audio.performer}}</p>

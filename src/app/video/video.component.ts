@@ -5,23 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import { ItemService } from '../item/item.service';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/of';
-import * as moment from 'moment';
+
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-
-
-const toDuration = (time: number) => {
-  const zeroPad = (num: number) => {
-    return num < 10 ? `0${num}` : `${num}`
-  };
-  const duration = moment.duration(time, 'seconds');
-  return duration.hours() + ":" +
-    zeroPad(duration.minutes()) + ":" +
-    zeroPad(duration.seconds()) + "." +
-    zeroPad(Math.round(duration.milliseconds() / 10));
-}
-
 
 @Component({
   selector: 'video-player',
@@ -35,7 +22,7 @@ export class VideoPlayerComponent {
   currentTime = new ReplaySubject(2);
   player: HTMLVideoElement;
   error = false;
-  duration: string;
+  duration: number;
 
   constructor () {
   }
@@ -43,13 +30,14 @@ export class VideoPlayerComponent {
   ngAfterViewInit(): void {
     console.log('viewInit');
     this.player = this.playerRef.nativeElement;
-    this.currentTime.next(toDuration(0))
+    this.currentTime.next(0)
   }
 
   loaded() {
-    this.duration = toDuration(this.player.duration)
-    this.currentTime.subscribe(Observable.fromEvent(this.player, 'timeupdate', event => event.target.currentTime)
-      .map(toDuration));
+    this.duration = this.player.duration;
+    this.currentTime.subscribe(
+      Observable.fromEvent(this.player, 'timeupdate', event => event.target.currentTime)
+    );
   }
 
   play() {

@@ -103,7 +103,7 @@ module.exports = function (options) {
           loader: 'string-replace-loader',
           query: {
             search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
-            replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
+            replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? (mod.default || mod) : mod)',
             flags: 'g'
           },
           include: [helpers.root('src')]
@@ -250,6 +250,12 @@ module.exports = function (options) {
         template: 'src/index.html',
         chunksSortMode: 'dependency'
       }),
+
+      new webpack.ContextReplacementPlugin(
+        // The (\\|\/) piece accounts for path separators in *nix and Windows
+        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+        helpers.root('../src') // location of your src
+      )
     ],
 
     /*

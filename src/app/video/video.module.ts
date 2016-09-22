@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VideoComponent, VideoPlayerComponent } from './video.component';
+import { MediaModule } from '../media/media.module';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MediaModule
   ],
   declarations: [
     VideoComponent,

@@ -27,7 +27,7 @@ export class ApiService {
     return this.get({projection, sort: {modified: -1}})
   }
 
-  items(ids?: string[], limit = 50) {
+  items(ids?: string[], limit = 200) {
     const query: MongoSearch = {
       projection: {
         title: 1,
@@ -35,10 +35,8 @@ export class ApiService {
         modified: 1,
         created: 1,
         file_modified: 1,
-        'thumbs.small': 1,
         tags: 1,
         complete_name: 1,
-        cover_data: 1,
         performer: 1,
         album: 1
       },
@@ -55,10 +53,12 @@ export class ApiService {
     const headers = new Headers();
     headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
     const search = new URLSearchParams();
-    Seq(query).forEach((v, k) => { search.set(k, JSON.stringify(v)) });
-    search.set('query', JSON.stringify({mimetype: {$regex: '^video'}}));
+    Seq(query).forEach((value: any, key: string) => {
+      search.set(key, JSON.stringify(value))
+    });
+
     return this.http
-      .get('https://api.wka.se/mediat/item', {search, headers})
+      .get('http://[::1]:5000/item', {search, headers})
       .map(r => r.json())
   }
 }

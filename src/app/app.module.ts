@@ -5,48 +5,46 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
-import { ROUTES } from './app.routes';
+import { StoreModule } from '@ngrx/store';
+import { appRoutes } from './app.routes';
 import { App } from './app.component';
 import { NoContent } from './no-content';
-import { itemReducer } from './item/item.reducer';
-import { combineReducers, StoreModule } from '@ngrx/store';
-import { storeLogger } from 'ngrx-store-logger';
-import { compose } from '@ngrx/core/compose';
-import { DurationPipe } from './item/duration.filter';
 import { ApiService } from './api/api.service';
+import { appReducer } from './app.reducer';
+import {SocketService} from './api/socket.service';
 
 type StoreType = {
   disposeOldHosts: () => void
 };
 
-const rootReducer = compose(storeLogger(), combineReducers)({
-  item: itemReducer,
-});
 
 @NgModule({
   bootstrap: [ App ],
   declarations: [
     App,
-    NoContent,
-    DurationPipe
+    NoContent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES),
-    StoreModule.provideStore(rootReducer),
+    RouterModule.forRoot(appRoutes),
+    StoreModule.provideStore(appReducer),
   ],
   providers: [
-    ApiService
+    ApiService,
+    SocketService
   ],
   exports: [
-    DurationPipe,
     CommonModule
   ]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef, socketService: SocketService) {
+    socketService.send({korv: 'salami'});
+    socketService.receive()
+      .subscribe(data => console.log('Socket data', data));
+  }
   hmrOnInit(store: StoreType) {
     if (!store) return;
     console.log('HMR store', store);

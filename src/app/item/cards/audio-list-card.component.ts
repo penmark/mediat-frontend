@@ -7,4 +7,14 @@ import { Item } from '../item';
 })
 export class AudioListCard {
   @Input() audio: Item;
+  loaded = false;
+  error = false;
+  onError(event, thumb) {
+    console.log('onError', event, thumb)
+    this.error = true;
+  }
+
+  onLoad(event) {
+    this.loaded = true;
+  }
 }
