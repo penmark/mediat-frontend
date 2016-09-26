@@ -1,15 +1,15 @@
 <h1>{{video.title}}</h1>
-<video #playerRef *ngIf="!error"
+<video #playerRef *ngIf="!error || error"
        (loadedmetadata)="loaded()"
        (progress)="buffered($event)"
        (click)="play()"
        controls>
-  <source [src]="videoSrc" [type]="video.mimetype" (error)="error=true">
+  <source [src]="videoSrc" type="video/mp4" (error)="error=true">
 </video>
 <p *ngIf="duration">{{currentTime | async | duration}} / {{duration | duration}}</p>
 <p>{{buffered | json}}</p>
 <div *ngIf="error">
-  <img [src]="'https://api.wka.se/mediat/item/'+video._id+'/thumb'">
+  <img [src]="'https://api.wka.se/mediat/item/' + video._id + '/thumb'">
   <p>Sorry, ain't playing {{video.mimetype}} yet</p>
   <a [href]="videoSrc">Download</a>
   <button (click)="transcode.emit(video)">Transcode</button>

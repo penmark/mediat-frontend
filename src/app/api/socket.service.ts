@@ -27,7 +27,7 @@ export class SocketService {
       },
     };
     this.socket = Subject.create(observer, observable);
-    store.subscribe(this.receive())
+    this.receive().subscribe(store)
   }
 
   send(data) {

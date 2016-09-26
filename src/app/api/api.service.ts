@@ -27,7 +27,7 @@ export class ApiService {
     return this.get({projection, sort: {modified: -1}})
   }
 
-  items(ids?: string[], limit = 200) {
+  items(ids?: string[], limit = 0) {
     const query: MongoSearch = {
       projection: {
         title: 1,
@@ -38,7 +38,10 @@ export class ApiService {
         tags: 1,
         complete_name: 1,
         performer: 1,
-        album: 1
+        album: 1,
+        codecs_video: 1,
+        audio_codecs: 1,
+        type: 1
       },
       limit,
       sort: {modified: -1}

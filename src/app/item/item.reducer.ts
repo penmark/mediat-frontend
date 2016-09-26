@@ -7,12 +7,16 @@ export interface ItemsState {
   index: OrderedMap<string, IndexItem>;
   items: OrderedMap<string, Item>;
   transcode: Map<string, {}>;
+  itemFilter: Function;
+  searchFilter: Function;
 }
 
 const initialState: ItemsState = {
   index: OrderedMap<string, IndexItem>(),
   items: OrderedMap<string, Item>(),
-  transcode: Map<string, {}>()
+  transcode: Map<string, {}>(),
+  itemFilter: null,
+  searchFilter: null
 };
 
 const updateEntities = (entities:  OrderedMap<string, IndexItem>, items: IndexItem[]):  OrderedMap<string, Item> => {
@@ -35,6 +39,12 @@ export const itemReducer: ActionReducer<any> = (state = initialState, action: It
       const progress = action.payload;
       const transcode = state.transcode.set(progress._id, progress);
       return Object.assign({}, state, {transcode})
+    }
+    case ItemActionTypes.FILTER_ITEMS: {
+      return Object.assign({}, state, {itemFilter: action.payload})
+    }
+    case ItemActionTypes.ITEM_SEARCH: {
+      return Object.assign({}, state, {searchFilter: action.payload})
     }
     default:
       return state;
