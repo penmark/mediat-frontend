@@ -44,7 +44,6 @@ export class SocketService {
   }
 
   mapSocketEvent(data) {
-    console.debug('socket event', data);
     switch (data.type) {
       case 'progress': {
         return new TranscodeProgress(data.payload);

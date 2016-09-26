@@ -17,8 +17,14 @@
       "es6"
     ],
     "types": [
-      "webpack",
-      "node"
+      "hammerjs",
+      "jasmine",
+      "node",
+      "protractor",
+      "selenium-webdriver",
+      "source-map",
+      "uglify-js",
+      "webpack"
     ]
   },
   "exclude": [

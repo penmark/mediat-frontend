@@ -9,9 +9,7 @@ export const ItemActionTypes = {
   LOAD_INDEX: '[item] Load index',
   INDEX_LOADED: '[item] Index loaded',
   TRANSCODE_ITEM: '[item] Transcode item',
-  TRANSCODE_PROGRESS: '[item] Transcode progress',
-  FILTER_ITEMS: '[item] Filter items',
-  ITEM_SEARCH: '[item] Search items'
+  TRANSCODE_PROGRESS: '[item] Transcode progress'
 };
 
 export class LoadItemsAction implements Action {
@@ -44,16 +42,6 @@ export class TranscodeProgress implements Action {
   constructor(public payload: {}) {}
 }
 
-export class FilterItems implements Action {
-  type = ItemActionTypes.FILTER_ITEMS;
-  constructor(public payload: Function) {}
-}
-
-export class ItemSearch implements Action {
-  type = ItemActionTypes.ITEM_SEARCH;
-  constructor(public payload: Function) {}
-}
-
 export type ItemActions =
     LoadItemsAction
   | ItemsLoadedAction
@@ -61,5 +49,3 @@ export type ItemActions =
   | IndexLoadedAction
   | TranscodeItem
   | TranscodeProgress
-  | FilterItems
-  | ItemSearch

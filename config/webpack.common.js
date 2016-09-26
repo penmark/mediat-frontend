@@ -77,8 +77,11 @@ module.exports = function (options) {
        */
       extensions: ['', '.ts', '.js', '.json'],
 
-      // An array of directory names to be resolved to the current directory
-      modules: [helpers.root('src'), 'node_modules'],
+      // Make sure root is src
+      root: helpers.root('src'),
+
+      // remove other default values
+      modulesDirectories: ['node_modules'],
 
     },
 
@@ -117,8 +120,7 @@ module.exports = function (options) {
        * See: http://webpack.github.io/docs/configuration.html#module-loaders
        */
       loaders: [
-        //{ test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-        { test: /\.(ttf|eot|svg|woff2?)(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader'},
+
         /*
          * Typescript loader support for .ts and Angular 2 async routes via .async.ts
          * Replace templateUrl and stylesUrl with require()

@@ -17,12 +17,13 @@ import { TranscodeItem } from '../item/item.actions';
 
 @Component({
   selector: 'video-player',
-  template: require('./video.html'),
+  template: require('./video-player.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles : [ 'video { max-width: 100% }']
 })
 export class VideoPlayerComponent {
   @Input() video: Video;
+  @Input() transcoding: any;
   @Output() transcode = new EventEmitter();
 
   @ViewChild('playerRef') playerRef: ElementRef;
@@ -65,10 +66,29 @@ export class VideoPlayerComponent {
 }
 
 @Component({
-  template: '<video-player [video]="video$ | async" (transcode)="transcode($event)"></video-player>'
+  selector: 'transcode-progress',
+  template: `
+<div class="text-xs-center" id="example-caption-1">Transcoding&hellip; {{percent}}%</div>
+<progress class="progress" [value]="percent" max="100" aria-describedby="example-caption-1"></progress>`
+})
+export class TranscodeProgress {
+  @Input() progress: number;
+  get percent() {
+    return (this.progress * 100).toFixed(1)
+  }
+}
+
+@Component({
+  template: `
+<video-player [video]="video$ | async" (transcode)="transcode($event)" [transcoding]="transcode$ | async"></video-player>
+<div *ngIf="transcode$ | async">
+  <transcode-progress [progress]="(transcode$ | async).progress"></transcode-progress>
+</div>
+`
 })
 export class VideoComponent implements OnInit {
   video$: Observable<Video>;
+  transcode$: Observable<{}>;
 
   constructor(private route: ActivatedRoute, private itemService: ItemService, private store: Store<any>) {}
 
@@ -76,6 +96,9 @@ export class VideoComponent implements OnInit {
     this.video$ = this.route.params
       .select<string>('itemId')
       .switchMap(id => this.itemService.item(id));
+    this.transcode$ = this.route.params
+      .select<string>('itemId')
+      .switchMap(id => this.itemService.transcoding(id))
   }
 
   transcode(video) {
