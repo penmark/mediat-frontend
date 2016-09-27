@@ -8,6 +8,6 @@ import { Item } from '../item';
 export class ImageListCard {
   @Input() image: Item;
   get imageSrc() {
-    return 'https://media.wka.se' + this.image.complete_name.substring(18);
+    return 'https://media.wka.se/' + this.image.complete_name.substring(18);
   }
 }

@@ -11,6 +11,8 @@ interface AppState {
 @Injectable()
 export class ItemService {
   itemsState$ = this.store.select(s => s.item);
+  itemFilter$ = this.itemsState$.select(s => s.itemFilter);
+  searchFilter$ = this.itemsState$.select(s => s.searchFilter);
   items$ = this.itemsState$.select(s => s.items);
   ids$ = this.items$.map<Seq.Indexed<string>>(items => items.keySeq());
 
@@ -26,16 +28,22 @@ export class ItemService {
       .map(items => items.filter(item => predicate(item)))
   }
 
-  video() {
-    return this.filter(i => i.mimetype.startsWith('video'))
-  }
-
-  audio() {
-    return this.filter(i => i.mimetype.startsWith('audio'))
-  }
-
-  image() {
-    return this.filter(i => i.mimetype.startsWith('image'))
+  filtered() {
+    return this.items()
+      .combineLatest(this.itemFilter$)
+      .map(([items, filter]) => {
+        if (filter) {
+          return items.filter(filter)
+        }
+        return items
+      })
+      .combineLatest(this.searchFilter$)
+      .map(([items, search]) => {
+        if (search) {
+          return items.filter(search)
+        }
+        return items
+      })
   }
 
   item(id: string) {
@@ -44,9 +52,5 @@ export class ItemService {
 
   hasItem(id: string) {
     return this.items$.map(items => items.has(id))
-  }
-
-  transcoding(id: string) {
-    return this.itemsState$.select(s => s.transcode.get(id))
   }
 }
