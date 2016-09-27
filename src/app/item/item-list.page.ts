@@ -16,7 +16,6 @@ import {ItemSearch} from './item.actions';
       <a href (click)="filter({k: 'type', v: 'video'})">video</a>
       <a href (click)="filter({k: 'type', v: 'audio'})">audio</a>
       <a href (click)="filter({k: 'type', v: 'image'})">image</a>
-      <a href (click)="filter({k: 'mimetype', v: 'video/mp4'})">streamable video</a>
       <a href (click)="filter(null)">all</a>
     </div>
     <div class="col-sm-3">
@@ -29,12 +28,11 @@ import {ItemSearch} from './item.actions';
 export class ItemListPage {
   items$: Observable<Seq.Indexed<Item>>;
   search = new EventEmitter();
-  searcher: Observable<any>;
 
   constructor(public itemService: ItemService, private store: Store<any>) {
     this.items$ = itemService.filtered();
-    this.searcher = this.search.debounceTime(300)
-      .map(query => {
+    this.search.debounceTime(300)
+      .map<string>(query => {
         const re = new RegExp(query, 'i');
         const search = item => {
           return re.test(item.complete_name)

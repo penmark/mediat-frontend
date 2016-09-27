@@ -36,7 +36,6 @@ export class VideoPlayerComponent {
   }
 
   ngAfterViewInit(): void {
-    console.log('viewInit');
     this.player = this.playerRef.nativeElement;
     this.currentTime.next(0)
   }
@@ -53,7 +52,7 @@ export class VideoPlayerComponent {
   }
 
   buffered(event) {
-    console.log(event.target.buffered.end(0) / event.target.duration);
+    //console.log(event.target.buffered.end(0) / event.target.duration);
   }
 
   onEvent(event) {

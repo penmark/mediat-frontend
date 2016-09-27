@@ -53,4 +53,8 @@ export class ItemService {
   hasItem(id: string) {
     return this.items$.map(items => items.has(id))
   }
+
+  transcoding(id: string) {
+    return this.itemsState$.select(s => s.transcode.has(id))
+  }
 }
