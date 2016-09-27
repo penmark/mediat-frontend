@@ -32,7 +32,7 @@ export class ItemListPage {
   constructor(public itemService: ItemService, private store: Store<any>) {
     this.items$ = itemService.filtered();
     this.search.debounceTime(300)
-      .map<string>(query => {
+      .map<ItemSearch>((query: string) => {
         const re = new RegExp(query, 'i');
         const search = item => {
           return re.test(item.complete_name)

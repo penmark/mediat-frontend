@@ -27,7 +27,8 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  baseUrl: '/mediat'
 });
 
 module.exports = function(env) {

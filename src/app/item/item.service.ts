@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { ItemsState } from './item.reducer';
 import { Item } from './item';
 import { Seq, OrderedMap } from 'immutable';
+import { Observable } from 'rxjs';
 
 interface AppState {
   item: ItemsState;
@@ -18,17 +19,17 @@ export class ItemService {
 
   constructor (private store: Store<AppState>) { }
 
-  items() {
+  items(): Observable<Seq.Indexed<Item>> {
     return this.items$
       .map<Seq.Indexed<Item>>(items => items.valueSeq());
   }
 
-  filter(predicate: (item: Item) => boolean) {
+  filter(predicate: (item: Item) => boolean): Observable<Seq.Indexed<Item>> {
     return this.items()
       .map(items => items.filter(item => predicate(item)))
   }
 
-  filtered() {
+  filtered(): Observable<Seq.Indexed<Item>> {
     return this.items()
       .combineLatest(this.itemFilter$)
       .map(([items, filter]) => {

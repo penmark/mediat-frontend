@@ -62,7 +62,7 @@ export class ApiService {
     const headers = new Headers();
     headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
     const search = new URLSearchParams();
-    Seq(query).forEach((value: any, key: string) => {
+    Seq<any>(query).forEach((value: any, key: string) => {
       search.set(key, JSON.stringify(value))
     });
 

@@ -43,7 +43,7 @@ export class VideoPlayerComponent {
   loaded() {
     this.duration = this.player.duration;
     this.currentTime.subscribe(
-      Observable.fromEvent(this.player, 'timeupdate', event => event.target.currentTime)
+      Observable.fromEvent<number>(this.player, 'timeupdate', event => event.target.currentTime)
     );
   }
 

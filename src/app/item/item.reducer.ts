@@ -1,10 +1,10 @@
 import { ActionReducer } from '@ngrx/store';
-import { Item, IndexItem } from './item';
+import { Item } from './item';
 import { ItemActions, ItemActionTypes } from './item.actions';
 import { OrderedSet, OrderedMap, Seq, Map } from 'immutable';
 
 export interface ItemsState {
-  index: OrderedMap<string, IndexItem>;
+  index: OrderedMap<string, Item>;
   items: OrderedMap<string, Item>;
   transcode: Map<string, {}>;
   itemFilter: Function;
@@ -12,14 +12,14 @@ export interface ItemsState {
 }
 
 const initialState: ItemsState = {
-  index: OrderedMap<string, IndexItem>(),
+  index: OrderedMap<string, Item>(),
   items: OrderedMap<string, Item>(),
   transcode: Map<string, {}>(),
   itemFilter: null,
   searchFilter: null
 };
 
-const updateEntities = (entities:  OrderedMap<string, IndexItem>, items: IndexItem[]):  OrderedMap<string, Item> => {
+const updateEntities = (entities:  OrderedMap<string, Item>, items: Item[]):  OrderedMap<string, Item> => {
   return entities.withMutations(map => {
     Seq(items).forEach(item => map.set(item._id, item))
   });

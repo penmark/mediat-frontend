@@ -1,9 +1,9 @@
 import { itemReducer } from './item.reducer';
 import { List, OrderedMap, Seq, OrderedSet } from 'immutable';
 import { LoadItemsAction, ItemsLoadedAction } from './item.actions';
-import { Item, IndexItem } from './item';
+import { Item } from './item';
 
-const item = (_id, title, mimetype='video/mp4', modified=new Date()): IndexItem => {
+const item = (_id, title, mimetype='video/mp4', modified=new Date()): Item => {
   return {_id, title, mimetype, modified, complete_name: title} as Item;
 }
 
