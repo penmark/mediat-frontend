@@ -17,6 +17,7 @@ import '@ngrx/store';
 import '@ngrx/effects';
 
 // RxJS
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/do';

@@ -12,6 +12,8 @@ import { NoContent } from './no-content';
 import { ApiService } from './api/api.service';
 import { appReducer } from './app.reducer';
 import {SocketService} from './api/socket.service';
+import { HttpService } from './api/http.service'
+import { AuthService } from './auth/auth.service'
 
 type StoreType = {
   disposeOldHosts: () => void
@@ -33,7 +35,9 @@ type StoreType = {
   ],
   providers: [
     ApiService,
-    SocketService
+    SocketService,
+    AuthService,
+    HttpService
   ],
   exports: [
     CommonModule

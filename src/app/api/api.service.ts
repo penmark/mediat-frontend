@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
-import { Seq } from 'immutable';
-import { Item } from '../item/item';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { Headers, URLSearchParams } from '@angular/http'
+import { Seq } from 'immutable'
+import { Item } from '../item/item'
+import { Observable } from 'rxjs'
+import { HttpService } from './http.service'
 
 
 export interface MongoSearch {
@@ -13,38 +14,21 @@ export interface MongoSearch {
   projection?: {};
 }
 
+const API_URL = 'https://api.wka.se/mediat';
+
 @Injectable()
 export class ApiService {
-  constructor(private http: Http) {
-  }
-
-  index() {
-    const projection = {
-      title: 1,
-      mimetype: 1,
-      modified: 1
-    };
-    return this.get({projection, sort: {modified: -1}})
+  constructor(private http: HttpService) {
   }
 
   items(ids?: string[], limit = 0) {
     const query: MongoSearch = {
       projection: {
-        title: 1,
-        mimetype: 1,
-        modified: 1,
-        created: 1,
-        file_modified: 1,
-        tags: 1,
-        complete_name: 1,
-        performer: 1,
-        album: 1,
-        codecs_video: 1,
-        audio_codecs: 1,
-        type: 1
+        thumbs: 0,
+        cover_data: 0
       },
       limit,
-      sort: {modified: -1}
+      sort: {title: 1}
     };
     if (ids) {
       query.query = {_id: {$in: ids}};
@@ -52,22 +36,25 @@ export class ApiService {
     return this.get(query)
   }
 
+  video() {
+    return this.get({query: {type: 'video'}});
+  }
+
+  audio() {
+    return this.get({query: {type: 'audio'}});
+  }
+
   transcode(item) {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
-    return this.http.post(`https://api.wka.se/mediat/item/${item._id}/transcode`, item, {headers})
+    return this.http.post(`${API_URL}/item/${item._id}/transcode`, item)
   }
 
   get(query: MongoSearch): Observable<Item[]> {
-    const headers = new Headers();
-    headers.append('Authorization', 'Basic ' + localStorage.getItem('credentials'));
     const search = new URLSearchParams();
     Seq<any>(query).forEach((value: any, key: string) => {
       search.set(key, JSON.stringify(value))
     });
-
     return this.http
-      .get('https://api.wka.se/mediat/item', {search, headers})
+      .get(API_URL + '/item', {search})
       .map(r => r.json())
   }
 

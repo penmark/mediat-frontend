@@ -1,13 +1,9 @@
-import { Action } from '@ngrx/store';
-import { Item } from './item';
-import { ItemsState } from './item.reducer';
-import { Observable } from 'rxjs';
+import { Action } from '@ngrx/store'
+import { Item } from './item'
 
 export const ItemActionTypes = {
   LOAD_ITEMS: '[item] Load items',
   ITEMS_LOADED: '[item] Items loaded',
-  LOAD_INDEX: '[item] Load index',
-  INDEX_LOADED: '[item] Index loaded',
   TRANSCODE_ITEM: '[item] Transcode item',
   TRANSCODE_PROGRESS: '[item] Transcode progress',
   FILTER_ITEMS: '[item] Filter items',
@@ -21,16 +17,6 @@ export class LoadItemsAction implements Action {
 
 export class ItemsLoadedAction implements Action {
   type = ItemActionTypes.ITEMS_LOADED;
-  constructor(public payload: Item[]) {}
-}
-
-export class LoadIndexAction implements Action {
-  type = ItemActionTypes.LOAD_INDEX;
-  constructor() {}
-}
-
-export class IndexLoadedAction implements Action {
-  type = ItemActionTypes.INDEX_LOADED;
   constructor(public payload: Item[]) {}
 }
 
@@ -57,8 +43,6 @@ export class ItemSearch implements Action {
 export type ItemActions =
     LoadItemsAction
   | ItemsLoadedAction
-  | LoadIndexAction
-  | IndexLoadedAction
   | TranscodeItem
   | TranscodeProgress
   | FilterItems

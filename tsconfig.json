@@ -18,7 +18,9 @@
     ],
     "types": [
       "webpack",
-      "node"
+      "node",
+      "jasmine",
+      "protractor"
     ]
   },
   "exclude": [
