@@ -14,7 +14,7 @@ export interface MongoSearch {
   projection?: {};
 }
 
-const API_URL = 'https://api.wka.se/mediat';
+
 
 @Injectable()
 export class ApiService {
@@ -45,7 +45,7 @@ export class ApiService {
   }
 
   transcode(item) {
-    return this.http.post(`${API_URL}/item/${item._id}/transcode`, item)
+    return this.http.post(`/item/${item._id}/transcode`, item)
   }
 
   get(query: MongoSearch): Observable<Item[]> {
@@ -54,8 +54,11 @@ export class ApiService {
       search.set(key, JSON.stringify(value))
     });
     return this.http
-      .get(API_URL + '/item', {search})
+      .get('/item', {search})
       .map(r => r.json())
   }
 
+  login(user, password) {
+    return this.http.get('/auth')
+  }
 }

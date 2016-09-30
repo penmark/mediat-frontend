@@ -14,6 +14,7 @@ import { appReducer } from './app.reducer';
 import {SocketService} from './api/socket.service';
 import { HttpService } from './api/http.service'
 import { AuthService } from './auth/auth.service'
+import { AuthModule } from './auth/auth.module';
 
 type StoreType = {
   disposeOldHosts: () => void
@@ -32,6 +33,7 @@ type StoreType = {
     HttpModule,
     RouterModule.forRoot(appRoutes),
     StoreModule.provideStore(appReducer),
+    AuthModule.forRoot()
   ],
   providers: [
     ApiService,

@@ -3,6 +3,8 @@ import { AuthService } from '../auth/auth.service'
 import { RequestOptionsArgs, Request, Http, RequestMethod, RequestOptions, Response } from '@angular/http'
 import { Observable } from 'rxjs'
 
+const API_URL = 'https://api.wka.se/mediat';
+
 @Injectable()
 export class HttpService {
 
@@ -34,6 +36,7 @@ export class HttpService {
       return this.get(url, options); // Recursion: transform url from String to Request
     }
     let req: Request = url as Request;
+    req.url = API_URL + req.url;
     let token: string = this.auth.credentials;
     return this.requestWithToken(req, token);
   }
@@ -64,5 +67,13 @@ export class HttpService {
 
   public options(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.requestHelper({body: '', method: RequestMethod.Options, url}, options);
+  }
+
+  public login(user, password) {
+    let request = new Request({
+      url: API_URL + '/auth',
+    });
+    request.headers.append('Authorization', 'Basic '+ btoa(`${user}:${password}`));
+    return this.http.request(request);
   }
 }
